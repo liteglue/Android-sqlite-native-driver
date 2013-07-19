@@ -11,12 +11,15 @@ ptrdiff_t sqlg_db_prepare_st(ptrdiff_t db, const char *sql);
 
 // TODO bind
 
-int sqlg_st_step(ptrdiff_t stmt);
+int sqlg_st_step(ptrdiff_t st);
 
-const char *sqlg_st_column_text(ptrdiff_t stmt, int col);
+int sqlg_st_column_count(ptrdiff_t st);
+const char *sqlg_st_column_name(ptrdiff_t st, int col);
+const char *sqlg_st_column_text(ptrdiff_t st, int col);
+int sqlg_st_column_type(ptrdiff_t st, int col);
 // TODO other column queries
 
-int sqlg_st_finish(ptrdiff_t stmt); /* call sqlite3_finalize() */
+int sqlg_st_finish(ptrdiff_t st); /* call sqlite3_finalize() */
 
 int sqlg_db_close(ptrdiff_t db);
 

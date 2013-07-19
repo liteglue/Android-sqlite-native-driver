@@ -43,13 +43,40 @@ int sqlg_st_step(ptrdiff_t stmt)
   sqlite3_step(mystmt);
 }
 
-const char *sqlg_st_column_text(ptrdiff_t stmt, int col)
+int sqlg_st_column_count(ptrdiff_t st)
 {
-  sqlite3_stmt *mystmt = (sqlite3_stmt *)((unsigned char *)NULL + stmt);
+  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d", __func__, stmt, col);
+  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x", __func__, st);
 
-  return sqlite3_column_text(mystmt, col);
+  return sqlite3_column_count(myst);
+}
+
+const char *sqlg_st_column_name(ptrdiff_t st, int col)
+{
+  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+
+  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d", __func__, st, col);
+
+  return sqlite3_column_name(myst, col);
+}
+
+const char *sqlg_st_column_text(ptrdiff_t st, int col)
+{
+  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+
+  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d", __func__, st, col);
+
+  return sqlite3_column_text(myst, col);
+}
+
+int sqlg_st_column_type(ptrdiff_t st, int col)
+{
+  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+
+  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d", __func__, st, col);
+
+  return sqlite3_column_type(myst, col);
 }
 
 int sqlg_st_finish(ptrdiff_t stmt)
