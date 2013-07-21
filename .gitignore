@@ -1,5 +1,3 @@
 *.java.old
-*.jar
 obj
 libs
-sqlite-amalgamation
