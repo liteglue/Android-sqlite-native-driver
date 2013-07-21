@@ -14,17 +14,19 @@ TBD API & some internal details
 
 # Building
 
-TBD
+## First step
 
-## Prerequisite(s)
+To include the `gluegentools` & `sqlite-amalgamation` subprojects: $ `make init`
 
-The SQLite amalg must be present in `sqlite-amalgamation`. TBD automatic installation task in Makefile
+## Normal build
+
+$ `make`
+
+## Regenerage Java & C glue code
+
+$ `make regen`
 
 # Adaptations & extensions
 
 TBD
-
-## Prerequisite(s)
-
-`gluegen` jar tools in `gluegentools` TBD automatic installation task in Makefile
 
