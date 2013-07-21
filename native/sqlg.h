@@ -9,7 +9,13 @@ ptrdiff_t sqlg_db_open(const char *filename, int flags);
 
 ptrdiff_t sqlg_db_prepare_st(ptrdiff_t db, const char *sql);
 
-// TODO bind
+// TODO blob:
+//int sqlg_st_bind_blob(ptrdiff_t st, int col, const void *val, int len); // ??
+int sqlg_st_bind_double(ptrdiff_t st, int col, double val);
+int sqlg_st_bind_int(ptrdiff_t st, int col, int val);
+int sqlg_st_bind_int64(ptrdiff_t st, int col, ptrdiff_t /*long*/ val);
+int sqlg_st_bind_text(ptrdiff_t st, int col, const char *val);
+// TBD TODO bind others (??)
 
 int sqlg_st_step(ptrdiff_t st);
 

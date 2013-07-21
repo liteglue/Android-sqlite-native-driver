@@ -34,6 +34,42 @@ ptrdiff_t sqlg_db_prepare_st(ptrdiff_t db, const char *sql)
   return (rv == 0) ? ((unsigned char *)s - (unsigned char *)NULL) : -rv;
 }
 
+int sqlg_st_bind_double(ptrdiff_t st, int col, double val)
+{
+  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+
+  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d %lf", __func__, st, col, val);
+
+  return sqlite3_bind_double(myst, col, val);
+}
+
+int sqlg_st_bind_int(ptrdiff_t st, int col, int val)
+{
+  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+
+  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d %d", __func__, st, col, val);
+
+  return sqlite3_bind_int(myst, col, val);
+}
+
+int sqlg_st_bind_int64(ptrdiff_t st, int col, ptrdiff_t /*long*/ val)
+{
+  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+
+  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d %ld", __func__, st, col, val);
+
+  return sqlite3_bind_int64(myst, col, val);
+}
+
+int sqlg_st_bind_text(ptrdiff_t st, int col, const char *val)
+{
+  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+
+  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d %s", __func__, st, col, val);
+
+  return sqlite3_bind_text(myst, col, val, -1, SQLITE_TRANSIENT);
+}
+
 int sqlg_st_step(ptrdiff_t stmt)
 {
   sqlite3_stmt *mystmt;
