@@ -1,10 +1,17 @@
-#include <stdlib.h>
+#include "sqlg.h"
+
+#include <stddef.h> /* for NULL */
 
 #include <android/log.h>
 
 #include "sqlite3.h"
 
-ptrdiff_t sqlg_db_open(const char *filename, int flags)
+#define BASE_HANDLE_OFFSET 0x100000000LL
+
+#define HANDLE_FROM_VP(p) ( BASE_HANDLE_OFFSET + ( (unsigned char *)(p) - (unsigned char *)NULL ) )
+#define HANDLE_TO_VP(h) (void *)( (unsigned char *)NULL + (ptrdiff_t)((h) - BASE_HANDLE_OFFSET) )
+
+sqlg_handle_t sqlg_db_open(const char *filename, int flags)
 {
   sqlite3 *d1;
   int r1;
@@ -12,123 +19,121 @@ ptrdiff_t sqlg_db_open(const char *filename, int flags)
   // see http://stackoverflow.com/questions/7030760/how-to-print-log-address-of-a-variable-in-ndk
   // and http://www.ibm.com/developerworks/opensource/tutorials/os-androidndk/section5.html
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "db_open %s %d", filename, flags);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "db_open %s %d", filename, flags);
 
   r1 = sqlite3_open_v2(filename, &d1, flags, NULL);
 
-  return (r1 == 0) ? ((unsigned char *)d1 - (unsigned char *)NULL) : -r1;
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "db_open %s result %d ptr %p", filename, r1, d1);
+
+  return (r1 == 0) ? HANDLE_FROM_VP(d1) : -r1;
 }
 
-ptrdiff_t sqlg_db_prepare_st(ptrdiff_t db, const char *sql)
+sqlg_handle_t sqlg_db_prepare_st(sqlg_handle_t db, const char *sql)
 {
-  sqlite3 *mydb;
+  sqlite3 *mydb = HANDLE_TO_VP(db);
   sqlite3_stmt *s;
   int rv;
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "prepare db %x sql %s", db, sql);
-
-  mydb = (sqlite3 *)((unsigned char *)NULL + db);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "prepare db %p sql %s", mydb, sql);
 
   rv = sqlite3_prepare_v2(mydb, sql, -1, &s, NULL);
 
-  return (rv == 0) ? ((unsigned char *)s - (unsigned char *)NULL) : -rv;
+  return (rv == 0) ? HANDLE_FROM_VP(s) : -rv;
 }
 
-int sqlg_st_bind_double(ptrdiff_t st, int col, double val)
+int sqlg_st_bind_double(sqlg_handle_t st, int col, double val)
 {
-  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d %lf", __func__, st, col, val);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %lf", __func__, myst, col, val);
 
   return sqlite3_bind_double(myst, col, val);
 }
 
-int sqlg_st_bind_int(ptrdiff_t st, int col, int val)
+int sqlg_st_bind_int(sqlg_handle_t st, int col, int val)
 {
-  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d %d", __func__, st, col, val);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %d", __func__, myst, col, val);
 
   return sqlite3_bind_int(myst, col, val);
 }
 
-int sqlg_st_bind_int64(ptrdiff_t st, int col, ptrdiff_t /*long*/ val)
+int sqlg_st_bind_int64(sqlg_handle_t st, int col, sqlg_long_t val)
 {
-  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d %ld", __func__, st, col, val);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %lld", __func__, myst, col, val);
 
   return sqlite3_bind_int64(myst, col, val);
 }
 
-int sqlg_st_bind_text(ptrdiff_t st, int col, const char *val)
+int sqlg_st_bind_text(sqlg_handle_t st, int col, const char *val)
 {
-  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d %s", __func__, st, col, val);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %s", __func__, myst, col, val);
 
   return sqlite3_bind_text(myst, col, val, -1, SQLITE_TRANSIENT);
 }
 
-int sqlg_st_step(ptrdiff_t stmt)
+int sqlg_st_step(sqlg_handle_t stmt)
 {
-  sqlite3_stmt *mystmt;
+  sqlite3_stmt *mystmt = HANDLE_TO_VP(stmt);
 
-  mystmt = (sqlite3_stmt *)((unsigned char *)NULL + stmt);
-
-  sqlite3_step(mystmt);
+  return sqlite3_step(mystmt);
 }
 
-int sqlg_st_column_count(ptrdiff_t st)
+int sqlg_st_column_count(sqlg_handle_t st)
 {
-  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x", __func__, st);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p", __func__, myst);
 
   return sqlite3_column_count(myst);
 }
 
-const char *sqlg_st_column_name(ptrdiff_t st, int col)
+const char *sqlg_st_column_name(sqlg_handle_t st, int col)
 {
-  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d", __func__, st, col);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d", __func__, myst, col);
 
   return sqlite3_column_name(myst, col);
 }
 
-const char *sqlg_st_column_text(ptrdiff_t st, int col)
+const char *sqlg_st_column_text(sqlg_handle_t st, int col)
 {
-  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d", __func__, st, col);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d", __func__, myst, col);
 
   return sqlite3_column_text(myst, col);
 }
 
-int sqlg_st_column_type(ptrdiff_t st, int col)
+int sqlg_st_column_type(sqlg_handle_t st, int col)
 {
-  sqlite3_stmt *myst = (sqlite3_stmt *)((unsigned char *)NULL + st);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x %d", __func__, st, col);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d", __func__, myst, col);
 
   return sqlite3_column_type(myst, col);
 }
 
-int sqlg_st_finish(ptrdiff_t stmt)
+int sqlg_st_finish(sqlg_handle_t st)
 {
-  sqlite3_stmt *mystmt = (sqlite3_stmt *)((unsigned char *)NULL + stmt);
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x", __func__, stmt);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p", __func__, myst);
 
-  return sqlite3_finalize(mystmt);
+  return sqlite3_finalize(myst);
 }
 
-int sqlg_db_close(ptrdiff_t db)
+int sqlg_db_close(sqlg_handle_t db)
 {
-  sqlite3 *mydb = (sqlite3 *)((unsigned char *)NULL + db);
+  sqlite3 *mydb = HANDLE_TO_VP(db);
 
-  __android_log_print(ANDROID_LOG_INFO, "sqlg", "%s %x", __func__, db);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p", __func__, mydb);
 
 // XXX TBD consider sqlite3_close() vs sqlite3_close_v2() ??:
   return sqlite3_close(mydb);
