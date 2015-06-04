@@ -12,13 +12,17 @@ Java application over JNI (Java native interface). This is accomplished by using
 
 TBD API & some internal details
 
+**NOTE:** This project references the `gluegentools` & `sqlite-amalgamation` subproject, which are resolved by: $ `make init`
+
 # Building
 
-## First step
-
-To include the `gluegentools` & `sqlite-amalgamation` subprojects: $ `make init`
-
 ## Normal build
+
+Initialize with subprojects:
+
+$ `make init`
+
+Then to build:
 
 $ `make`
 
