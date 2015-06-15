@@ -97,7 +97,7 @@ int sqlg_st_bind_int(sqlg_handle_t st, int col, int val)
   return sqlite3_bind_int(myst, col, val);
 }
 
-int sqlg_st_bind_int64(sqlg_handle_t st, int col, sqlg_long_t val)
+int sqlg_st_bind_long(sqlg_handle_t st, int col, sqlg_long_t val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -106,7 +106,7 @@ int sqlg_st_bind_int64(sqlg_handle_t st, int col, sqlg_long_t val)
   return sqlite3_bind_int64(myst, col, val);
 }
 
-int sqlg_st_bind_text_string(sqlg_handle_t st, int col, const char *val)
+int sqlg_st_bind_text_native(sqlg_handle_t st, int col, const char *val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -115,9 +115,14 @@ int sqlg_st_bind_text_string(sqlg_handle_t st, int col, const char *val)
   return sqlite3_bind_text(myst, col, val, -1, SQLITE_TRANSIENT);
 }
 
-int sqlg_st_bind_text(sqlg_handle_t st, int col, const char *val)
+int sqlg_st_bind_text_string(sqlg_handle_t st, int col, const char *val)
 {
-  return sqlg_st_bind_text_string(st, col, val);
+  return sqlg_st_bind_text_native(st, col, val);
+}
+
+int sqlg_st_bind_int64(sqlg_handle_t st, int col, sqlg_long_t val)
+{
+  return sqlg_st_bind_long(st, col, val);
 }
 
 int sqlg_st_step(sqlg_handle_t stmt)
@@ -150,12 +155,17 @@ double sqlg_st_column_double(sqlg_handle_t st, int col)
   return sqlite3_column_double(HANDLE_TO_VP(st), col);
 }
 
+int sqlg_st_column_int(sqlg_handle_t st, int col)
+{
+  return sqlite3_column_int(HANDLE_TO_VP(st), col);
+}
+
 sqlg_long_t sqlg_st_column_long(sqlg_handle_t st, int col)
 {
   return sqlite3_column_int64(HANDLE_TO_VP(st), col);
 }
 
-const char *sqlg_st_column_text_string(sqlg_handle_t st, int col)
+const char *sqlg_st_column_text_native(sqlg_handle_t st, int col)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -164,9 +174,9 @@ const char *sqlg_st_column_text_string(sqlg_handle_t st, int col)
   return sqlite3_column_text(myst, col);
 }
 
-const char *sqlg_st_column_text(sqlg_handle_t st, int col)
+const char *sqlg_st_column_text_string(sqlg_handle_t st, int col)
 {
-  return sqlg_st_column_text_string(st, col);
+  return sqlg_st_column_text_native(st, col);
 }
 
 int sqlg_st_column_type(sqlg_handle_t st, int col)

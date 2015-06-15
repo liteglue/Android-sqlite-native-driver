@@ -1,9 +1,9 @@
-#include "sqlg.h"
 
-#include "sqlg.c"
+#include "sqlite3.c"
+
+#include "sqlg.h" /* types needed for SQLiteGlue_JNI.c */
 
 #include "SQLiteGlue_JNI.c"
 
-// FUTURE TBD:
-//#include "sqlite3.c"
+#include "sqlg.c"
 
