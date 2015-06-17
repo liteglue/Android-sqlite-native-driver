@@ -115,16 +115,6 @@ int sqlg_st_bind_text_native(sqlg_handle_t st, int col, const char *val)
   return sqlite3_bind_text(myst, col, val, -1, SQLITE_TRANSIENT);
 }
 
-int sqlg_st_bind_text_string(sqlg_handle_t st, int col, const char *val)
-{
-  return sqlg_st_bind_text_native(st, col, val);
-}
-
-int sqlg_st_bind_int64(sqlg_handle_t st, int col, sqlg_long_t val)
-{
-  return sqlg_st_bind_long(st, col, val);
-}
-
 int sqlg_st_step(sqlg_handle_t stmt)
 {
   sqlite3_stmt *mystmt = HANDLE_TO_VP(stmt);
@@ -172,11 +162,6 @@ const char *sqlg_st_column_text_native(sqlg_handle_t st, int col)
   __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d", __func__, myst, col);
 
   return sqlite3_column_text(myst, col);
-}
-
-const char *sqlg_st_column_text_string(sqlg_handle_t st, int col)
-{
-  return sqlg_st_column_text_native(st, col);
 }
 
 int sqlg_st_column_type(sqlg_handle_t st, int col)
