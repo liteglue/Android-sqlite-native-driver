@@ -52,10 +52,11 @@ sqlg_long_t sqlg_db_last_insert_rowid(sqlg_handle_t db);
 int sqlg_db_total_changes(sqlg_handle_t db);
 
 // FUTURE TBD bind blob:
-//  int sqlg_st_bind_blob(sqlg_handle_t st, int col, const void *val, int len); // ??
-int sqlg_st_bind_double(sqlg_handle_t st, int col, double val);
-int sqlg_st_bind_int(sqlg_handle_t st, int col, int val);
-int sqlg_st_bind_long(sqlg_handle_t st, int col, sqlg_long_t val);
+//  int sqlg_st_bind_blob(sqlg_handle_t st, int pos, const void *val, int len); // ??
+int sqlg_st_bind_double(sqlg_handle_t st, int pos, double val);
+int sqlg_st_bind_int(sqlg_handle_t st, int pos, int val);
+int sqlg_st_bind_long(sqlg_handle_t st, int pos, sqlg_long_t val);
+int sqlg_st_bind_null(sqlg_handle_t st, int pos);
 /* Converts UTF-16 to UTF-8 internally: */
 int sqlg_st_bind_text_native(sqlg_handle_t st, int col, const char *val);
 // FUTURE TBD: bind text in UTF-16 format to SKIP the conversion

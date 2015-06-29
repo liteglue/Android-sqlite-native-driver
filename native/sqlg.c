@@ -79,31 +79,37 @@ int sqlg_db_total_changes(sqlg_handle_t db)
   return sqlite3_total_changes(mydb);
 }
 
-int sqlg_st_bind_double(sqlg_handle_t st, int col, double val)
+int sqlg_st_bind_double(sqlg_handle_t st, int pos, double val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %lf", __func__, myst, col, val);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %lf", __func__, myst, pos, val);
 
-  return sqlite3_bind_double(myst, col, val);
+  return sqlite3_bind_double(myst, pos, val);
 }
 
-int sqlg_st_bind_int(sqlg_handle_t st, int col, int val)
+int sqlg_st_bind_int(sqlg_handle_t st, int pos, int val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %d", __func__, myst, col, val);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %d", __func__, myst, pos, val);
 
-  return sqlite3_bind_int(myst, col, val);
+  return sqlite3_bind_int(myst, pos, val);
 }
 
-int sqlg_st_bind_long(sqlg_handle_t st, int col, sqlg_long_t val)
+int sqlg_st_bind_long(sqlg_handle_t st, int pos, sqlg_long_t val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
-  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %lld", __func__, myst, col, val);
+  __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", "%s %p %d %lld", __func__, myst, pos, val);
 
-  return sqlite3_bind_int64(myst, col, val);
+  return sqlite3_bind_int64(myst, pos, val);
+}
+
+int sqlg_st_bind_null(sqlg_handle_t st, int pos)
+{
+  sqlite3_stmt *myst = HANDLE_TO_VP(st);
+  return sqlite3_bind_null(myst, pos);
 }
 
 int sqlg_st_bind_text_native(sqlg_handle_t st, int col, const char *val)
