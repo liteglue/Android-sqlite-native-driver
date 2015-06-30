@@ -2,7 +2,7 @@
 
 Provides a native build of sqlite with a low-level interface for Android libraries.
 
-Based on [SQLiteGlue-core](https://github.com/sqlg/SQLiteGlue-core).
+Based on [SQLiteGlue-core](https://github.com/sqlg/SQLiteGlue-core), which may be adapted for other Java platforms.
 
 Unlicense (public domain).
 
@@ -10,7 +10,7 @@ Unlicense (public domain).
 
 Android-sqlite-native-driver provides:
 - single `SQLiteNative` class with native Java interface to ~~the most~~ _an important_ subset of sqlite C functions
-- automatic build of native sqlite library that is accessible from the native Java interface
+- automatic build of `sqlite-native-driver.jar`, with native sqlite library build for major Android targets (`armeabi`, `armeabi-v7a`, `x86`, `x86_64`) that is accessible from the native Java interface
 
 This is accomplished by using [GlueGen](http://jogamp.org/gluegen/www/) around a simple wrapper C module.
 

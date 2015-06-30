@@ -10,10 +10,11 @@ regen:
 
 # NOTE: adding v (verbose) flag for the beginning stage:
 ndkbuild:
-	cd jni
+	rm -rf lib libs
 	ndk-build
+	mv libs lib
+	jar cf sqlite-native-driver.jar lib
 
 clean:
-	rm -rf obj
-	rm -rf libs
+	rm -rf obj lib libs sqlite-native-driver.jar
 
