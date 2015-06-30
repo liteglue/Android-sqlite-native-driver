@@ -3,7 +3,7 @@
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)  
 LOCAL_LDLIBS := -llog
-LOCAL_MODULE    := sqlite-native-driver
+LOCAL_MODULE    := sqlc-native-driver
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../sqlite-amalgamation
 LOCAL_CFLAGS += -DSQLITE_TEMP_STORE=2 -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_RTREE
 LOCAL_SRC_FILES := ../native/sqlc_all.c
