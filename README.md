@@ -1,14 +1,18 @@
-# SQLiteGlue-core
+# Android sqlite native driver
 
-Low-level Android &amp; other Java native glue interface to sqlite using Gluegen.
+Provides a native build of sqlite with a low-level interface for Android libraries.
+
+Based on [SQLiteGlue-core](https://github.com/sqlg/SQLiteGlue-core).
 
 Unlicense (public domain).
 
 ## About
 
-SQLiteGlue provides the basic low-level functions necessary to use sqlite from an Android or other
-Java application over JNI (Java native interface). This is accomplished by using
-[GlueGen](http://jogamp.org/gluegen/www/) around a simple wrapper C module.
+Android-sqlite-native-driver provides:
+- single `SQLiteNative` class with native Java interface to ~~the most~~ _an important_ subset of sqlite C functions
+- automatic build of native sqlite library that is accessible from the native Java interface
+
+This is accomplished by using [GlueGen](http://jogamp.org/gluegen/www/) around a simple wrapper C module.
 
 This project is meant to help build a higher-level sqlite interface library, with the JNI layer completely isolated and may be embedded with the package name changed.
 
@@ -36,5 +40,5 @@ $ `make regen`
 
 # Testing
 
-Test Android app in: https://github.com/sqlg/SQLiteGlue-test-Android
+TBD
 

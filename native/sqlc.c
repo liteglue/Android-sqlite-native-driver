@@ -1,4 +1,4 @@
-#include "sqlg.h"
+#include "sqlc.h"
 
 #include <stddef.h> /* for NULL */
 
@@ -11,7 +11,7 @@
 #define HANDLE_FROM_VP(p) ( BASE_HANDLE_OFFSET + ( (unsigned char *)(p) - (unsigned char *)NULL ) )
 #define HANDLE_TO_VP(h) (void *)( (unsigned char *)NULL + (ptrdiff_t)((h) - BASE_HANDLE_OFFSET) )
 
-sqlg_handle_t sqlg_db_open(const char *filename, int flags)
+sqlc_handle_t sqlc_db_open(const char *filename, int flags)
 {
   sqlite3 *d1;
   int r1;
@@ -28,7 +28,7 @@ sqlg_handle_t sqlg_db_open(const char *filename, int flags)
   return (r1 == 0) ? HANDLE_FROM_VP(d1) : -r1;
 }
 
-sqlg_handle_t sqlg_db_prepare_st(sqlg_handle_t db, const char *sql)
+sqlc_handle_t sqlc_db_prepare_st(sqlc_handle_t db, const char *sql)
 {
   sqlite3 *mydb = HANDLE_TO_VP(db);
   sqlite3_stmt *s;
@@ -42,7 +42,7 @@ sqlg_handle_t sqlg_db_prepare_st(sqlg_handle_t db, const char *sql)
 }
 
 /** FUTURE TBD for sqlcipher:
-int sqlg_db_key_bytes(sqlg_handle_t db, unsigned char *key_bytes, int num_bytes)
+int sqlc_db_key_bytes(sqlc_handle_t db, unsigned char *key_bytes, int num_bytes)
 {
   sqlite3 *mydb = HANDLE_TO_VP(db);
 
@@ -53,7 +53,7 @@ int sqlg_db_key_bytes(sqlg_handle_t db, unsigned char *key_bytes, int num_bytes)
 #endif
 }
 
-int sqlg_db_rekey_bytes(sqlg_handle_t db, unsigned char *key_bytes, int num_bytes)
+int sqlc_db_rekey_bytes(sqlc_handle_t db, unsigned char *key_bytes, int num_bytes)
 {
   sqlite3 *mydb = HANDLE_TO_VP(db);
 
@@ -65,21 +65,21 @@ int sqlg_db_rekey_bytes(sqlg_handle_t db, unsigned char *key_bytes, int num_byte
 }
 **/
 
-sqlg_long_t sqlg_db_last_insert_rowid(sqlg_handle_t db)
+sqlc_long_t sqlc_db_last_insert_rowid(sqlc_handle_t db)
 {
   sqlite3 *mydb = HANDLE_TO_VP(db);
 
   return sqlite3_last_insert_rowid(mydb);
 }
 
-int sqlg_db_total_changes(sqlg_handle_t db)
+int sqlc_db_total_changes(sqlc_handle_t db)
 {
   sqlite3 *mydb = HANDLE_TO_VP(db);
 
   return sqlite3_total_changes(mydb);
 }
 
-int sqlg_st_bind_double(sqlg_handle_t st, int pos, double val)
+int sqlc_st_bind_double(sqlc_handle_t st, int pos, double val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -88,7 +88,7 @@ int sqlg_st_bind_double(sqlg_handle_t st, int pos, double val)
   return sqlite3_bind_double(myst, pos, val);
 }
 
-int sqlg_st_bind_int(sqlg_handle_t st, int pos, int val)
+int sqlc_st_bind_int(sqlc_handle_t st, int pos, int val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -97,7 +97,7 @@ int sqlg_st_bind_int(sqlg_handle_t st, int pos, int val)
   return sqlite3_bind_int(myst, pos, val);
 }
 
-int sqlg_st_bind_long(sqlg_handle_t st, int pos, sqlg_long_t val)
+int sqlc_st_bind_long(sqlc_handle_t st, int pos, sqlc_long_t val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -106,13 +106,13 @@ int sqlg_st_bind_long(sqlg_handle_t st, int pos, sqlg_long_t val)
   return sqlite3_bind_int64(myst, pos, val);
 }
 
-int sqlg_st_bind_null(sqlg_handle_t st, int pos)
+int sqlc_st_bind_null(sqlc_handle_t st, int pos)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
   return sqlite3_bind_null(myst, pos);
 }
 
-int sqlg_st_bind_text_native(sqlg_handle_t st, int col, const char *val)
+int sqlc_st_bind_text_native(sqlc_handle_t st, int col, const char *val)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -121,14 +121,14 @@ int sqlg_st_bind_text_native(sqlg_handle_t st, int col, const char *val)
   return sqlite3_bind_text(myst, col, val, -1, SQLITE_TRANSIENT);
 }
 
-int sqlg_st_step(sqlg_handle_t stmt)
+int sqlc_st_step(sqlc_handle_t stmt)
 {
   sqlite3_stmt *mystmt = HANDLE_TO_VP(stmt);
 
   return sqlite3_step(mystmt);
 }
 
-int sqlg_st_column_count(sqlg_handle_t st)
+int sqlc_st_column_count(sqlc_handle_t st)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -137,7 +137,7 @@ int sqlg_st_column_count(sqlg_handle_t st)
   return sqlite3_column_count(myst);
 }
 
-const char *sqlg_st_column_name(sqlg_handle_t st, int col)
+const char *sqlc_st_column_name(sqlc_handle_t st, int col)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -146,22 +146,22 @@ const char *sqlg_st_column_name(sqlg_handle_t st, int col)
   return sqlite3_column_name(myst, col);
 }
 
-double sqlg_st_column_double(sqlg_handle_t st, int col)
+double sqlc_st_column_double(sqlc_handle_t st, int col)
 {
   return sqlite3_column_double(HANDLE_TO_VP(st), col);
 }
 
-int sqlg_st_column_int(sqlg_handle_t st, int col)
+int sqlc_st_column_int(sqlc_handle_t st, int col)
 {
   return sqlite3_column_int(HANDLE_TO_VP(st), col);
 }
 
-sqlg_long_t sqlg_st_column_long(sqlg_handle_t st, int col)
+sqlc_long_t sqlc_st_column_long(sqlc_handle_t st, int col)
 {
   return sqlite3_column_int64(HANDLE_TO_VP(st), col);
 }
 
-const char *sqlg_st_column_text_native(sqlg_handle_t st, int col)
+const char *sqlc_st_column_text_native(sqlc_handle_t st, int col)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -170,7 +170,7 @@ const char *sqlg_st_column_text_native(sqlg_handle_t st, int col)
   return sqlite3_column_text(myst, col);
 }
 
-int sqlg_st_column_type(sqlg_handle_t st, int col)
+int sqlc_st_column_type(sqlc_handle_t st, int col)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -179,7 +179,7 @@ int sqlg_st_column_type(sqlg_handle_t st, int col)
   return sqlite3_column_type(myst, col);
 }
 
-int sqlg_st_finish(sqlg_handle_t st)
+int sqlc_st_finish(sqlc_handle_t st)
 {
   sqlite3_stmt *myst = HANDLE_TO_VP(st);
 
@@ -188,7 +188,7 @@ int sqlg_st_finish(sqlg_handle_t st)
   return sqlite3_finalize(myst);
 }
 
-int sqlg_db_close(sqlg_handle_t db)
+int sqlc_db_close(sqlc_handle_t db)
 {
   sqlite3 *mydb = HANDLE_TO_VP(db);
 
