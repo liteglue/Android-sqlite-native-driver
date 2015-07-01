@@ -41,7 +41,7 @@ sqlc_handle_t sqlc_db_prepare_st(sqlc_handle_t db, const char *sql)
   return (rv == 0) ? HANDLE_FROM_VP(s) : -rv;
 }
 
-/** FUTURE TBD for sqlcipher:
+/** FUTURE TBD (???) for sqlcipher:
 int sqlc_db_key_bytes(sqlc_handle_t db, unsigned char *key_bytes, int num_bytes)
 {
   sqlite3 *mydb = HANDLE_TO_VP(db);
@@ -64,6 +64,12 @@ int sqlc_db_rekey_bytes(sqlc_handle_t db, unsigned char *key_bytes, int num_byte
 #endif
 }
 **/
+
+int sqlc_db_key_native_string(sqlc_handle_t db, char *key_string)
+{
+  // NOT IMPLEMENTED in this version branch:
+  return SQLITE_INTERNAL;
+}
 
 sqlc_long_t sqlc_db_last_insert_rowid(sqlc_handle_t db)
 {
