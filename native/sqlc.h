@@ -1,3 +1,6 @@
+/* API version to check: */
+#define SQLC_API_VERSION 1
+
 /* Export some important sqlite open flags to the Java interface (VFS not supported): */
 #define SQLC_OPEN_READONLY      0x00001
 #define SQLC_OPEN_READWRITE     0x00002
@@ -16,6 +19,8 @@
 #define SQLC_RESULT_PERM        3
 #define SQLC_RESULT_ABORT       4
 /* TBD ... */
+#define SQLC_RESULT_CONSTRAINT  19
+#define SQLC_RESULT_MISMATCH    20
 #define SQLC_RESULT_MISUSE      21
 /* TBD ... */
 #define SQLC_RESULT_ROW         100
@@ -34,6 +39,13 @@ typedef long long sqlc_long_t;
 /* negative number indicates an error: */
 typedef sqlc_long_t sqlc_handle_t;
 
+/* RECOMMENDED (alt 1): Use this call at startup to check Java/native library match
+ * (returns SQLC_RESULT_OK [0] if OK, other value in case of mismatch) */
+int sqlc_api_version_check(int sqlc_api_version);
+
+/* RECOMMENDED (alt 2): Check Java/native library match and open database handle */
+sqlc_handle_t sqlc_api_db_open(int sqlc_api_version, const char *filename, int flags);
+
 sqlc_handle_t sqlc_db_open(const char *filename, int flags);
 
 // FUTURE TBD (???):
@@ -51,6 +63,10 @@ sqlc_handle_t sqlc_db_prepare_st(sqlc_handle_t db, const char *sql);
 
 sqlc_long_t sqlc_db_last_insert_rowid(sqlc_handle_t db);
 int sqlc_db_total_changes(sqlc_handle_t db);
+
+int sqlc_db_errcode(sqlc_handle_t db);
+const char * sqlc_db_errmsg_native(sqlc_handle_t db);
+const char * sqlc_errstr_native(int errcode);
 
 // FUTURE TBD bind blob:
 //  int sqlc_st_bind_blob(sqlc_handle_t st, int pos, const void *val, int len); // ??
@@ -81,4 +97,3 @@ const char *sqlc_st_column_text_native(sqlc_handle_t st, int col);
 int sqlc_st_finish(sqlc_handle_t st); /* call sqlite3_finalize() */
 
 int sqlc_db_close(sqlc_handle_t db);
-
