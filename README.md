@@ -35,6 +35,10 @@ TBD API and some internal details (probably in a blog post)
 - `-DSQLITE_ENABLE_FTS3_PARENTHESIS`
 - `-DSQLITE_ENABLE_FTS4`
 - `-DSQLITE_ENABLE_RTREE`
+- `-DSQLITE_DEFAULT_PAGE_SIZE=1024`
+- `-DSQLITE_DEFAULT_CACHE_SIZE=2000`
+
+**NOTE:** Old default page/cache size values are used to avoid a "potentially disruptive change" described at: http://sqlite.org/pgszchng2016.html
 
 ## Major TODOs and limitations
 
