@@ -26,7 +26,7 @@ TBD API and some internal details (probably in a blog post)
 
 ## SQLite build information
 
-**SQLite version:** `3.12.2`
+**SQLite version:** `3.15.1`
 
 **SQLite build flags:**
 - `-DSQLITE_TEMP_STORE=2`
