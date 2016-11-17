@@ -24,6 +24,18 @@ This project is meant to help build a higher-level sqlite interface library, wit
 
 TBD API and some internal details (probably in a blog post)
 
+## SQLite build information
+
+**SQLite version:** `3.12.2`
+
+**SQLite build flags:**
+- `-DSQLITE_TEMP_STORE=2`
+- `-DSQLITE_THREADSAFE=2`
+- `-DSQLITE_ENABLE_FTS3`
+- `-DSQLITE_ENABLE_FTS3_PARENTHESIS`
+- `-DSQLITE_ENABLE_FTS4`
+- `-DSQLITE_ENABLE_RTREE`
+
 ## Major TODOs and limitations
 
 - Automatic AAR build
