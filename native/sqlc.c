@@ -10,7 +10,7 @@
 
 #ifdef SQLC_KEEP_ANDROID_LOG
 // ref: http://www.ibm.com/developerworks/opensource/tutorials/os-androidndk/index.html
-#define MYLOG(...) __android_log_print(ANDROID_LOG_VERBOSE, "sqlg", __VA_ARGS__)
+#define MYLOG(...) __android_log_print(ANDROID_LOG_VERBOSE, "sqlc", __VA_ARGS__)
 #else
 #define MYLOG(...) ;
 #endif
