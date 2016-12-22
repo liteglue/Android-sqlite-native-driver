@@ -30,7 +30,7 @@ TBD API and some internal details (probably in a blog post)
 
 **SQLite build flags:**
 - `-DSQLITE_TEMP_STORE=2`
-- `-DSQLITE_THREADSAFE=2`
+- `-DSQLITE_THREADSAFE=1`
 - `-DSQLITE_ENABLE_FTS3`
 - `-DSQLITE_ENABLE_FTS3_PARENTHESIS`
 - `-DSQLITE_ENABLE_FTS4`
