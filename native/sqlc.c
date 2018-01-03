@@ -208,7 +208,7 @@ const char *sqlc_st_column_text_native(sqlc_handle_t st, int col)
 
   MYLOG("%s %p %d", __func__, myst, col);
 
-  return sqlite3_column_text(myst, col);
+  return (const char *)sqlite3_column_text(myst, col);
 }
 
 int sqlc_st_column_type(sqlc_handle_t st, int col)
