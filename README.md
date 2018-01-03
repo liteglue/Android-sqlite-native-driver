@@ -12,7 +12,7 @@ License: UNLICENSE (public domain).
 
 Android-sqlite-native-driver provides:
 - single `SQLiteNative` class with native Java interface to an important subset of sqlite C functions
-- automatic build of `sqlite-native-driver-libs.zip`, with native sqlite library build for major Android targets (`armeabi`, `armeabi-v7a`, `x86`, `x86_64`) that is accessible from the native Java interface
+- automatic build of `sqlite-native-driver-libs.zip` and `sqlite-native-driver.jar`, with native sqlite library build for major Android targets (`armeabi`, `armeabi-v7a`, `x86`, `x86_64`) that is accessible from the native Java interface
 
 This is accomplished by using [GlueGen](http://jogamp.org/gluegen/www/) around a simple wrapper C module.
 
