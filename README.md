@@ -1,18 +1,18 @@
 # Android sqlite native driver
 
-Provides a native build of sqlite with a low-level interface for Android libraries.
+Provides Android NDK build of sqlite3 (<http://sqlite.org/>, public domain) with a low-level JNI interface accessible from a single (singleton) single `SQLiteNative` class.
 
 Based on [SQLiteGlue-core](https://github.com/sqlg/SQLiteGlue-core), which may be adapted for other Java platforms.
 
-by Christopher J. Brody aka Chris Brody mailto: brodybits@litehelpers.net
+by Christopher J. Brody aka Chris Brody mailto: <brodybits@litehelpers.net>
 
 License: UNLICENSE (public domain).
 
 ## About
 
-Android-sqlite-native-driver provides:
-- single `SQLiteNative` class with native Java interface to an important subset of sqlite C functions
-- automatic build of `sqlite-native-driver-libs.zip` and `sqlite-native-driver.jar`, with native sqlite library build for major Android targets (`armeabi`, `armeabi-v7a`, `x86`, `x86_64`) that is accessible from the native Java interface
+Android-sqlite-native-driver provides the following items:
+- single `SQLiteNative` class with native Java interface to an important subset of sqlite3 C functions
+- automatic build of `sqlite-native-driver.jar` and `sqlite-native-driver-libs.zip` with sqlite3 component for major Android NDK targets (`armeabi` / `armeabi-v7a` / `x86` / `x86_64` / `arm64-v8a`), with sqlite3 component
 
 This is accomplished by using [GlueGen](http://jogamp.org/gluegen/www/) around a simple wrapper C module.
 
@@ -20,15 +20,18 @@ This project is meant to help build a higher-level sqlite interface library, wit
 
 **NOTE:** This project references the `gluegentools` and `sqlite-amalgamation` subprojects, which are resolved by: $ `make init` (as described below).
 
-**WARNING:** The sqlite database and statement handles that are returned by the `SQLiteNative` library functions are raw C pointer values (with `0x100000000` added). If someone uses a sqlite database or statement handle that is not valid, or no longer valid with the `SQLiteNative` library the behavior is undefined (such as a crash). It is *NOT* recommended to use this API directly unless you really understand how this library works internally.
+**WARNING:** The sqlite database and statement handles that are returned by the `SQLiteNative` library functions are raw C pointer values (with `0x100000000` added). If someone uses a database or statement handle that is not valid, or no longer valid with the `SQLiteNative` library the behavior is undefined (may crash, for example). It is NOT recommended to use the API directly without understanding of how this library works internally.
 
-TBD API and some internal details (probably in a blog post)
+FUTURE TODO: better documentation of API and some internal details
 
 ## SQLite build information
 
-**SQLite version:** `3.15.2`
+### SQLite version
 
-**SQLite build flags:**
+    3.15.2
+
+### SQLite build flags
+
 - `-DSQLITE_THREADSAFE=1`
 - `-DSQLITE_DEFAULT_MEMSTATUS=0`
 - `-DSQLITE_OMIT_DECLTYPE`
