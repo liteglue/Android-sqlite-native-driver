@@ -8,13 +8,13 @@
 
 /*   Java->C glue code:
  *   Java package: io.liteglue.SQLiteNative
- *    Java method: long sqlc_api_db_open(int sqlc_api_version, java.lang.String filename, int flags)
- *     C function: sqlc_handle_t sqlc_api_db_open(int sqlc_api_version, const char *  filename, int flags);
+ *    Java method: SQLiteResponse sqlc_api_db_open(int sqlc_api_version, java.lang.String filename, int flags)
+ *     C function: sqlc_handle_ct* sqlc_api_db_open(int sqlc_api_version, const char *  filename, int flags);
  */
-JNIEXPORT jlong JNICALL 
+JNIEXPORT jobject JNICALL 
 Java_io_liteglue_SQLiteNative_sqlc_1api_1db_1open__ILjava_lang_String_2I(JNIEnv *env, jclass _unused, jint sqlc_api_version, jstring filename, jint flags) {
   const char* _strchars_filename = NULL;
-  sqlc_handle_t _res;
+  sqlc_handle_ct* _res;
   if ( NULL != filename ) {
     _strchars_filename = (*env)->GetStringUTFChars(env, filename, (jboolean*)NULL);
   if ( NULL == _strchars_filename ) {
@@ -27,7 +27,14 @@ Java_io_liteglue_SQLiteNative_sqlc_1api_1db_1open__ILjava_lang_String_2I(JNIEnv 
   if ( NULL != filename ) {
     (*env)->ReleaseStringUTFChars(env, filename, _strchars_filename);
   }
-  return _res;
+
+  jclass class = (*env)->FindClass(env,"io/liteglue/SQLiteResponse");
+  jmethodID constructor = (*env)->GetMethodID(env, class, "<init>", "(IJ)V");
+  jobject instance = (*env)->NewObject(env, class, constructor, _res->result, _res->handle);
+  
+  free(_res);
+
+  return instance;
 }
 
 
@@ -124,13 +131,13 @@ Java_io_liteglue_SQLiteNative_sqlc_1db_1last_1insert_1rowid__J(JNIEnv *env, jcla
 
 /*   Java->C glue code:
  *   Java package: io.liteglue.SQLiteNative
- *    Java method: long sqlc_db_open(java.lang.String filename, int flags)
- *     C function: sqlc_handle_t sqlc_db_open(const char *  filename, int flags);
+ *    Java method: SQLiteResponse sqlc_db_open(java.lang.String filename, int flags)
+ *     C function: sqlc_handle_ct* sqlc_db_open(const char *  filename, int flags);
  */
-JNIEXPORT jlong JNICALL 
+JNIEXPORT jobject JNICALL 
 Java_io_liteglue_SQLiteNative_sqlc_1db_1open__Ljava_lang_String_2I(JNIEnv *env, jclass _unused, jstring filename, jint flags) {
   const char* _strchars_filename = NULL;
-  sqlc_handle_t _res;
+  sqlc_handle_ct* _res;
   if ( NULL != filename ) {
     _strchars_filename = (*env)->GetStringUTFChars(env, filename, (jboolean*)NULL);
   if ( NULL == _strchars_filename ) {
@@ -143,19 +150,26 @@ Java_io_liteglue_SQLiteNative_sqlc_1db_1open__Ljava_lang_String_2I(JNIEnv *env, 
   if ( NULL != filename ) {
     (*env)->ReleaseStringUTFChars(env, filename, _strchars_filename);
   }
-  return _res;
+
+  jclass class = (*env)->FindClass(env,"io/liteglue/SQLiteResponse");
+  jmethodID constructor = (*env)->GetMethodID(env, class, "<init>", "(IJ)V");
+  jobject instance = (*env)->NewObject(env, class, constructor, _res->result, _res->handle);
+
+  free(_res);
+
+  return instance;
 }
 
 
 /*   Java->C glue code:
  *   Java package: io.liteglue.SQLiteNative
- *    Java method: long sqlc_db_prepare_st(long db, java.lang.String sql)
- *     C function: sqlc_handle_t sqlc_db_prepare_st(sqlc_handle_t db, const char *  sql);
+ *    Java method: SQLiteResponse sqlc_db_prepare_st(long db, java.lang.String sql)
+ *     C function: sqlc_handle_ct* sqlc_db_prepare_st(sqlc_handle_t db, const char *  sql);
  */
-JNIEXPORT jlong JNICALL 
+JNIEXPORT jobject JNICALL 
 Java_io_liteglue_SQLiteNative_sqlc_1db_1prepare_1st__JLjava_lang_String_2(JNIEnv *env, jclass _unused, jlong db, jstring sql) {
   const char* _strchars_sql = NULL;
-  sqlc_handle_t _res;
+  sqlc_handle_ct* _res;
   if ( NULL != sql ) {
     _strchars_sql = (*env)->GetStringUTFChars(env, sql, (jboolean*)NULL);
   if ( NULL == _strchars_sql ) {
@@ -168,7 +182,14 @@ Java_io_liteglue_SQLiteNative_sqlc_1db_1prepare_1st__JLjava_lang_String_2(JNIEnv
   if ( NULL != sql ) {
     (*env)->ReleaseStringUTFChars(env, sql, _strchars_sql);
   }
-  return _res;
+
+  jclass class = (*env)->FindClass(env,"io/liteglue/SQLiteResponse");
+  jmethodID constructor = (*env)->GetMethodID(env, class, "<init>", "(IJ)V");
+  jobject instance = (*env)->NewObject(env, class, constructor, _res->result, _res->handle);
+
+  free(_res);
+
+  return instance;
 }
 
 
@@ -393,5 +414,4 @@ Java_io_liteglue_SQLiteNative_sqlc_1st_1step__J(JNIEnv *env, jclass _unused, jlo
   _res = sqlc_st_step((sqlc_handle_t) st);
   return _res;
 }
-
 
