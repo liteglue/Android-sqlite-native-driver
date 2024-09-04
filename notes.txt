@@ -1,0 +1,20 @@
+THIS IS A TEST !
+
+Notes to compile on Windows with Cygwin
+
+Edit Android.mk
+LOCAL_LDFLAGS += "-Wl,-z,max-page-size=16384"
+
+Edit Application.mk
+APP_SUPPORT_FLEXIBLE_PAGE_SIZES := true
+
+Open cygwin
+	cd /cygdrive/c/Users/alex/Documents/GitHub/Android-sqlite-native-driver
+	export PATH=$PATH:/cygdrive/c/Users/alex/AppData/Local/Android/Sdk/ndk/27.0.12077973/
+	export PATH=$PATH:export PATH=$PATH:/cygdrive/c/Program\ Files/Java/jdk-18.0.2/bin/
+	source ~/.bashrc
+	make init
+	make
+	
+Remarks:
+- armeabi platform is obsolete

@@ -11,11 +11,12 @@ regen:
 # NOTE: adding v (verbose) flag for the beginning stage:
 ndkbuild:
 	rm -rf lib libs
-	ndk-build
+	# 29/08/2024 Android 15 : Add Page Size 16Kb support
+	# ndk-build
+	ndk-build.cmd
 	zip sqlite-native-driver-libs.zip libs/*/*
 	mv libs lib
 	jar cf sqlite-native-driver.jar lib
 
 clean:
 	rm -rf obj lib libs sqlite-native-driver.jar *.zip
-

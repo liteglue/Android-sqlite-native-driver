@@ -1,3 +1,12 @@
+# WARNING TEST PLUGIN
+
+This plugin is forked from https://github.com/liteglue/Android-sqlite-native-driver, and only provided to test the compilation of new Libs for Android 15 16Kb Page Size.
+TODO:
+- Test libraries
+- Replace hardcoded path (ex: ndk-build in Mainfile)
+- Test with https://github.com/hooliapps/cordova-sqlite-legacy-build-support / https://github.com/brodycj/cordova-sqlite-legacy-build-support / 
+- Commit in the original package
+
 # Android sqlite native driver
 
 Provides Android NDK build of sqlite3 (<http://sqlite.org/>, public domain) with a low-level JNI interface accessible from a single (singleton) single `SQLiteNative` class.
